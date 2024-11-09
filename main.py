@@ -5,3 +5,11 @@ class particle:
         self.charged:bool = charged #if particle is charged
         self.mass:float = mass
         
+    def position():
+        "sis"
+
+class position:
+    
+    def __init__():
+        ""
+    def
