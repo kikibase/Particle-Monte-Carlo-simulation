@@ -4,12 +4,6 @@ class particle:
         self.particle_name:str = particle_name
         self.charged:bool = charged #if particle is charged
         self.mass:float = mass
-        
-    def position():
-        "sis"
 
-class position:
-    
-    def __init__():
-        ""
-    def
+    def position():
+        velocity = 7
