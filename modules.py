@@ -66,6 +66,8 @@ class material:
         name:str = ""
         #properties
         density:float = 0.0
+        size:list = [0,0,0] #the size in metres x,y,z coordinates
+        mass:float = 0 #the mass  of the material in kg
 
 
 class effects:
@@ -104,3 +106,9 @@ class beam:
             print("You should give an array of energies for the polyenergetic beam")
         elif is_monoenergetic and (energy == 0):
             print("You should give the energy level of the monoenergetic beam")
+
+
+class simulate:
+
+    def __init__(self, beam_of_particle:beam, material_to_interact:material, point_of_entry:list, angle_of_entry:float) -> None:
+        pass

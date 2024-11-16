@@ -1,4 +1,4 @@
-from modules import particle, electron, beam
+from modules import material, particle, electron, beam
 
 #simulation setup
 
@@ -7,5 +7,7 @@ from modules import particle, electron, beam
 
 particulate:particle = electron([0,0])# creates an electron
 electron_beam:beam = beam(particulate, 500, True, energy=(10*pow(10,6)))# create an electron beam of 10MeV
+water:material =
+
 
 print(particulate)
