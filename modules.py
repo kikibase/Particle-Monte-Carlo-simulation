@@ -1,4 +1,12 @@
 
+"""
+If not specified all units used are S.I units
+all lenght based units are in metres(m)
+all time based unnits are in seconds(s)
+energy is in electron-volts(eV)
+mass is in kilograms(kg)
+"""
+
 #constants
 
 c = 299792458 #speed of light in m/s
@@ -39,6 +47,9 @@ class particle:
         e= self.mass*(c**2)
         return e
 
+    def is_charged(self) -> bool:
+        return self.charged
+
     def __str__(self) -> str:
         return f"particle name: {self.particle_name}, mass: {self.mass}, current velocity: {self.get_velocity()}"
 
@@ -62,12 +73,21 @@ class electron(particle):
 class material:
 
 
-    def __init__(self):
-        name:str = ""
+    def __init__(#default material is water
+        self,
+        name_of_material:str = "water",
+        size_of_material:list = [1,1,0], #lenght height width of material
+        density_of_material:float = 1,
+        mass_of_material:float = 100
+    ):
+        """
+        Default material is water with mass of 1kg and
+        """
+        self.name:str = name_of_material
         #properties
-        density:float = 0.0
-        size:list = [0,0,0] #the size in metres x,y,z coordinates
-        mass:float = 0 #the mass  of the material in kg
+        self.density:float = density_of_material
+        self.size:list = size_of_material #the size in metres lenght, height, width
+        self.mass:float = mass_of_material #the mass of the material in kg
 
 
 class effects:
@@ -79,7 +99,41 @@ class effects:
         Compton effect
         Rayleigh Scattering
         Photonuclear effect
+    Effects from charged particles
+        coulomb interaction
+            elastic collsions
+            Inelastic collsions
+        Bremmstraung Radiation
     """
+
+    def priority_table(self, particle:particle, material:material) -> dict:
+        """
+        Example priority table:
+            {
+            always: [bremstraung],
+            random: [
+            {hard-collision: 0.9},
+            {soft_collision: 0},
+            {process: priority:int}
+            ]
+            }
+        """
+
+        if particle.is_charged():
+            datum:dict = {
+            "always": [self.bremmstraung],
+            "random": []
+            }
+        else:
+            datum:dict = {
+                "always": [],
+                "random": []
+            }
+        return datum
+
+    def bremmstraung(self):
+
+        return None
 
     def pair_production(self):
         return None
