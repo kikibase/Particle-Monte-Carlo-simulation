@@ -7,10 +7,18 @@ energy is in electron-volts(eV)
 mass is in kilograms(kg)
 """
 
+import matplotlib.pyplot as plt
+import numpy as np
+
+
 #constants
 
 c = 299792458 #speed of light in m/s
 h = 6.62607015 * pow(10, -34) # planck's constant in j/hz or js(joules second)
+e = 2.71828 # Euler's constant
+π = 3.141 #PI
+ε = 8.854*pow(10,-12)# permitivity of free space in C/(Vm) coulombs per joules-metres
+MASS_OF_ELECTRON = 9.109*pow(10,-31) #mass of electron in kg
 
 
 class particle:
@@ -130,8 +138,13 @@ class effects:
                 "random": []
             }
         return datum
-
-    def bremmstraung(self):
+    def collision(self,
+                   z:float #charge of incoming particle
+                   ):
+        CONSTANT = pow(e,2)/(4*e*π*ε)
+        CONST2 = pow(z,2)/(MASS_OF_ELECTRON*)# mulitply velocity and impact parameter
+        energy_loss:float = 2*pow((CONSTANT),2)* CONST2
+    def radiative_loss_bremmstraung(self):
 
         return None
 
@@ -139,7 +152,7 @@ class effects:
         return None
     def triplet_production(self):
         return None
-    def Photo_electric_effect(self):
+    def Photo_electric_effect(self):        
         return None
     def Compton_effect(self):
         return None
@@ -156,13 +169,50 @@ class beam:
         This creates instances of the given electron to be used as a beam
         Energy should be in eV
         """
-        if not is_monoenergetic and (polyenergetic_array.__len__() == 0):
-            print("You should give an array of energies for the polyenergetic beam")
-        elif is_monoenergetic and (energy == 0):
+        
+        if is_monoenergetic and (energy == 0):
             print("You should give the energy level of the monoenergetic beam")
+        elif not is_monoenergetic and (polyenergetic_array.__len__() == 0):
+            print("You should give an array of energies for the polyenergetic beam")
+
+        self.number_of_particles:int = number_of_electrons
 
 
-class simulate:
+    def get_number_of_particles(self) -> int:
+        return self.number_of_particles
 
-    def __init__(self, beam_of_particle:beam, material_to_interact:material, point_of_entry:list, angle_of_entry:float) -> None:
-        pass
+class simulate:    
+    def __init__(self, 
+                beam_of_particle:beam, 
+                material_to_interact:material, 
+                point_of_entry:list, 
+                angle_of_entry:float, 
+                dicretization:int, 
+                energy_threshold:float = 0) -> None:
+        if energy_threshold == 0:
+            # if there is a zero energy threshold caclulate what it should be with the stopping power
+            pass
+
+        self.beam:beam = beam_of_particle
+        self.material:material = material_to_interact
+        self.point_of_entry:list = point_of_entry
+        self.angle_of_entry:float = angle_of_entry
+        self.dicretization:int = dicretization
+        self.energy_threshold:float = energy_threshold
+
+        number_of_particles:int = self.beam.get_number_of_particles()
+
+        #sets the position of all particles by the data given
+        self.x_coords_of_particles = np.multiply(np.ones(number_of_particles), point_of_entry[0])
+        self.y_coords_of_particles = np.multiply(np.ones(number_of_particles), point_of_entry[1])
+
+        self.angle_of_particles = np.multiply(np.ones(number_of_particles), angle_of_entry)
+        self.array_of_eneries = np.multiply(np.ones(number_of_particles), point_of_entry[1])
+        
+
+    def graph(self):#make graphs
+        # Make a graph for the position of the electrons y against x
+        
+        fig, ax = plt.subplots()
+        ax.plot(self.x_coords_of_particles, self.y_coords_of_particles)
+        plt.show()
